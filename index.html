@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/style.css">
+    <title>My Chat App</title>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-4" id="left">
+            <!--<button onclick="sendMsj()">Click</button>-->
+            <ul class="contact list-unstyled mb-0 mt-2">
+
+                <!--<li class="p-2 card mt-2">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div>
+                                <img class="rounded-pill me-3" width="60"
+                                    src="https://randomuser.me/api/portraits/women/81.jpg" alt="user">
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-0 text-light">Tonya Banks</p>
+                                <p class="small text-muted"> Lorem ipsum dolor ...</p>
+                            </div>
+                            <div>
+                                <p class="small text-muted">5 min ago</p>
+                                <span class="badge bg-danger rounded-pill float-end">2</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="p-2 card mt-2">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div>
+                                <img class="rounded-pill me-3" width="60"
+                                    src="https://randomuser.me/api/portraits/women/75.jpg" alt="user">
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-0 text-light">Darlene Mendoza</p>
+                                <p class="small text-muted"> Lorem ipsum dolor ...</p>
+                            </div>
+                            <div>
+                                <p class="small text-muted">15 min ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="p-2 card mt-2">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div>
+                                <img class="rounded-pill me-3" width="60"
+                                    src="https://randomuser.me/api/portraits/men/16.jpg" alt="user">
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-0 text-light">Roberto Harvey</p>
+                                <p class="small text-muted"> Lorem ipsum dolor ...</p>
+                            </div>
+                            <div>
+                                <p class="small text-muted">1 day ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>-->
+            </ul>
+        </div>
+
+        <div class="col-8" id="right">
+            <div class="chats"></div>
+            <!--<div class="d-flex chat">
+                <div class="w-25 d-flex align-items-end justify-content-end">
+                    <img class="rounded-pill me-3 avatar" width="60"
+                        src="https://randomuser.me/api/portraits/women/81.jpg" alt="user">
+                </div>
+                <div class="w-75">
+                    <div class="card">
+                        <div class="card-body">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero necessitatibus alias nam
+                            quisquam ab reprehenderit beatae nobis labore corporis eaque!</div>
+                    </div>
+                    <p class="small text-muted">8:45 PM</p>
+                </div>
+            </div>
+
+            <div class="d-flex chat">
+                <div class="w-75">
+                    <div class="card bg-dark">
+                        <div class="card-body text-light">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero necessitatibus alias nam
+                            quisquam ab reprehenderit beatae nobis labore corporis eaque!</div>
+                    </div>
+                    <p class="small text-muted float-end">8:48 PM</p>
+                </div>
+
+                <div class="w-25 d-flex align-items-end justify-content-start">
+                    <img class="rounded-pill ms-3 avatar" width="60"
+                        src="https://randomuser.me/api/portraits/men/21.jpg" alt="user">
+                </div>
+            </div>-->
+
+
+            <form action="" class="form-message">
+                <div class="row">
+                    <div class="col ">
+                        <textarea class="form-control rounded-pill"></textarea>
+                    </div>
+
+                    <div class="col-auto button-space">
+                        <button
+                            class="btn btn-primary rounded-circle send-button d-flex align-items-center justify-content-center">
+
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="w-6 h-6" id="button-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                            </svg>
+
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    const { ipcRenderer } = require('electron');
+
+    ipcRenderer.on('pr-chats', (event, chats) => {
+        createChats(chats);
+        //console.log(chats);
+    })
+
+    ipcRenderer.on('pr-contacts', (event, contacts) => {
+        createContact(contacts)
+        //console.log(contacts);
+    })
+
+    function sendMsj() {
+        ipcRenderer.send('data-from-web', 'Hello from web!')
+    }
+
+
+
+    function createContact(contacts) {
+        var lis = ""
+
+        contacts.forEach((c, index) => {
+            lis += `
+        <li class="p-2 card mt-2" onClick="changeContact(${index})">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div>
+                                <img class="rounded-pill me-3" width="60"
+                                    src="${c.image}" alt="user">
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-0 text-light">${c.name}</p>
+                                <p class="small text-muted">${c.last_chat[0]['message']}</p>
+                            </div>
+                            <div>
+                                <p class="small text-muted">${c.last_chat[0]['date']}</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>`
+        })
+
+        document.querySelector('.contact').innerHTML = lis;
+    }
+
+
+    function createChats(chats) {        
+        var lis = ""            
+                
+        if (chats.length == 0) {            
+            lis += `
+            <div class="d-flex chat">
+                <div class="w-75">
+                    <div class="card bg-dark">
+                        <div class="card-body text-light">
+                           <h3 class="text-center">No message</h3> 
+                            </div>
+                    </div>                    
+                </div>                                
+            </div>`
+        } else {
+            chats.forEach((c) => {
+                lis += `
+            <div class="d-flex chat">
+                <div class="w-75">
+                    <div class="card bg-dark">
+                        <div class="card-body text-light">
+                            ${c.chat.message}</div>
+                    </div>
+                    <p class="small text-muted float-end">${c.chat.date}</p>
+                </div>
+                
+                <div class="w-25 d-flex align-items-end justify-content-start">
+                    <img class="rounded-pill ms-3 avatar" width="60"
+                        src="${c.user.image}" alt="user">
+                </div>
+            </div>`
+            })
+        }
+
+        document.querySelector('.chats').innerHTML = lis;
+    }
+
+    function changeContact(index) {
+        ipcRenderer.send('pp-get-chat', index)
+    }
+
+</script>
+
+</html>
