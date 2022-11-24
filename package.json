@@ -5,14 +5,19 @@
   "main": "index.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:linux": "electron-builder --linux --dir",
+    "pro:linux": "electron-builder --linux",
+    "pro:windows":"electron-builder --win"
   },
   "author": "Poul Lorca",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^21.3.0"
+    "electron": "^21.3.0",
+    "electron-builder": "^23.6.0"
   },
   "dependencies": {
     "bootstrap": "^5.2.2"
+    
   }
 }
